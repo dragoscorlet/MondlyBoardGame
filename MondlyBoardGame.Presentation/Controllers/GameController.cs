@@ -15,6 +15,7 @@ namespace MondlyBoardGame.Presentation.Controllers
         {
             try
             {
+
                 _game.JoinGame(new Player(userName));
                 Response.SetCookie(new HttpCookie("user",userName));
                 ///number of players is minimum enable start game
