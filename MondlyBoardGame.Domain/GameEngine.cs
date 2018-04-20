@@ -19,6 +19,7 @@ namespace MondlyBoardGame.Domain
         {
             _board = new Board(boardSize);
             _players = new List<Player>();
+            _questionProvider = new QuestionProvider();
         }
 
         public void JoinGame(Player player)
