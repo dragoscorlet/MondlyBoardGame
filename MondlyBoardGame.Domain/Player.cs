@@ -14,7 +14,7 @@ namespace MondlyBoardGame.Domain
 
         public Player(string name)
         {
-            name = Name;
+            Name = name;
             CurrentPosition = new Position(QuestionTopic.Undefined, 0);
         }
 

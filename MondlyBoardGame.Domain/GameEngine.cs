@@ -92,6 +92,11 @@ namespace MondlyBoardGame.Domain
             return _currentPlayer.Name;
         }
 
+        public List<string> GetUserNames()
+        {
+            return _players.Select(p => p.Name).ToList();
+        }
+
         private bool IsGameOver()
         {
             var isgameOver =  _players.Any(p => p.CurrentPosition.Index == _board.Size);
