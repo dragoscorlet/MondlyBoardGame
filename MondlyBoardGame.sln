@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MondlyBoardGame.Domain", "MondlyBoardGame.Domain\MondlyBoardGame.Domain.csproj", "{D77A8D02-2FC4-42FB-96F3-2B29F6970406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MondlyBoardGame.DAL", "MondlyBoardGame.DAL\MondlyBoardGame.DAL.csproj", "{302F0315-3996-4C12-8AC3-B18C3194C59C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MondlyBoardGame.Presentation", "MondlyBoardGame.Presentation\MondlyBoardGame.Presentation.csproj", "{F8EACFB5-6C73-4ABC-96ED-D353A13A4C7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D77A8D02-2FC4-42FB-96F3-2B29F6970406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77A8D02-2FC4-42FB-96F3-2B29F6970406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77A8D02-2FC4-42FB-96F3-2B29F6970406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77A8D02-2FC4-42FB-96F3-2B29F6970406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{302F0315-3996-4C12-8AC3-B18C3194C59C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{302F0315-3996-4C12-8AC3-B18C3194C59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{302F0315-3996-4C12-8AC3-B18C3194C59C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{302F0315-3996-4C12-8AC3-B18C3194C59C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8EACFB5-6C73-4ABC-96ED-D353A13A4C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8EACFB5-6C73-4ABC-96ED-D353A13A4C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8EACFB5-6C73-4ABC-96ED-D353A13A4C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8EACFB5-6C73-4ABC-96ED-D353A13A4C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
