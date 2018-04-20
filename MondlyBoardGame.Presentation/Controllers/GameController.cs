@@ -16,7 +16,9 @@ namespace MondlyBoardGame.Presentation.Controllers
             try
             {
                 _game.JoinGame(new Player(userName));
-                //redirect to game page
+                Response.SetCookie(new HttpCookie("user",userName));
+                ///number of players is minimum enable start game
+
                 return new JsonResult();
             }
             catch
@@ -25,10 +27,28 @@ namespace MondlyBoardGame.Presentation.Controllers
             }
         }
 
+        public ActionResult StartGame()
+        {
+            // return grid with players
+            //with curent player
+            //enable roll dice
+
+            return null;
+        }
+
 
         public ActionResult RollDice()
-        {
+        {   
+            //return question
             return View();
         }
+
+        public ActionResult AnswerQuestion()
+        {   
+            //move to next
+            return null;
+        }
+
+
     }
 }
