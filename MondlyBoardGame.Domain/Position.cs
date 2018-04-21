@@ -2,13 +2,13 @@
 {
     public class Position
     {
-        public Position(QuestionTopic question, int index)
+        public Position(QuestionType question, int index)
         {
             QuestionTopic = question;
             Index = index;
         } 
 
-        public QuestionTopic QuestionTopic { get;  private set; }
+        public QuestionType QuestionTopic { get;  private set; }
 
         public int Index { get; set; }
     }

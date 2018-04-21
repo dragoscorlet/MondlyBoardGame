@@ -13,6 +13,7 @@ namespace MondlyBoardGame.Domain
         private GameState _state;
         private Player _currentPlayer;
         private int _currentDiceValue;
+        private Question _currentQuestion;
         private QuestionProvider _questionProvider;
 
         public GameEngine(int boardSize)
@@ -58,14 +59,34 @@ namespace MondlyBoardGame.Domain
             return _currentDiceValue;
         }
 
-        public Question<T> GetQuestion<T>()
+        public Question GetQuestion()
         {
             var questionType = _board.Positions
                 .Where(position => position.Index == GetNextPosition())
                 .Select(postion => postion.QuestionTopic)
                 .FirstOrDefault();
 
-           return  _questionProvider.GetRandomQuestion<T>(questionType);
+           return  _questionProvider.GetRandomQuestion(questionType);
+        }
+
+        public Question GetCurrentQuestion()
+        {
+            return _currentQuestion;
+        }
+
+        public int GetCurrentDiceValue()
+        {
+            return _currentDiceValue;
+        }
+
+        public Board GetBoard()
+        {
+            return _board;
+        }
+
+        public List<Player> GetAllPlayers()
+        {
+            return _players;
         }
 
         private bool IsValidAnswer(Answer playerAnswer)

@@ -1,7 +1,9 @@
 ﻿namespace MondlyBoardGame.Domain
 {
-    public enum QuestionTopic
+    public enum QuestionType
     {
-        Undefined = 0,
+        SingleChoinceText = 0,
+        MultipleImage,
+        SingleImage
     }
 }

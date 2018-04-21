@@ -4,7 +4,7 @@ namespace MondlyBoardGame.Domain
 {
     public class QuestionProvider
     {
-        public Question<T> GetRandomQuestion<T>(QuestionTopic topic)
+        public Question GetRandomQuestion(QuestionType topic)
         {
             throw new InvalidOperationException();
         } 

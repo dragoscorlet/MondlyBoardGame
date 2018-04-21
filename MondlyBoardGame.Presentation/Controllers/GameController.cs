@@ -1,4 +1,5 @@
 ﻿using MondlyBoardGame.Domain;
+using MondlyBoardGame.Presentation.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -33,6 +34,44 @@ namespace MondlyBoardGame.Presentation.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult Board()
+        {
+            var board = new BoardViewModel(_game.GetBoard(), _game.GetAllPlayers());
+
+             return Json(board.GetBoardCells(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDiceRoll()
+        {
+            return Json(_game.GetCurrentDiceValue());
+        }
+
+        [HttpGet]
+        public JsonResult CurrentQuestion()
+        {
+            var questionViewModel = new QuestionViewModel();
+
+            var dummyQuestion = new Question()
+            {
+                Id = 0,
+                QuestionType = QuestionType.MultipleImage,
+                Statement = "Which picture contains a dog",
+                HasMultipleAnswers = false,
+                AnswerOptions = new List<AnswerOption<string>>
+                {
+                    new AnswerOption<string>()
+                    {
+                        Id = 0,
+                        Option = "http://image1.jpg",
+                        OptionType = AnswerOptionType.Image
+
+                    }
+                }
+            };
+
+            return Json(dummyQuestion,JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public ActionResult Start()
