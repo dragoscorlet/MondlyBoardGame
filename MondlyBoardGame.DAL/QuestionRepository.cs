@@ -28,7 +28,7 @@ namespace MondlyBoardGame.DAL
                         {
                             questions.Add(new QuestionData
                             {
-                                Id = (int)reader["id"],
+                                Id = (int)reader["QuestionId"],
                                 Statement = (string)reader["Statement"],
                                 QuestionType = (int)reader["QuestionType"],
                                 HasMultipleAnswers = (bool)reader["HasMultipleQuestions"]

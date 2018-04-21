@@ -26,7 +26,7 @@ namespace MondlyBoardGame.Presentation.Models
                 Index = p.Index,
                 QuestionTopic = p.QuestionTopic,
                 HasPlayers = _players.Any(pl => p.Index == pl.CurrentPosition.Index),
-                PlayerNames = _players.Select(pl => pl.Name).ToList()
+                PlayerNames = _players.Where(pl => pl.CurrentPosition.Index == p.Index).Select(pl => pl.Name).ToList()
 
             }).ToList();
 

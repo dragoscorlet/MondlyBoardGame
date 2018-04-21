@@ -35,40 +35,13 @@ namespace MondlyBoardGame.Presentation.Controllers
         [HttpGet]
         public JsonResult CurrentQuestion()
         {
-            var questionViewModel = new QuestionViewModel();
-
-            var dummyQuestion = new Question()
-            {
-                Id = 0,
-                QuestionType = QuestionType.MultipleImage,
-                Statement = "Which picture contains a dog",
-                HasMultipleAnswers = false,
-                AnswerOptions = new List<AnswerOption<string>>
-                {
-                    new AnswerOption<string>()
-                    {
-                        Id = 0,
-                        Option = "http://image1.jpg",
-                        OptionType = AnswerOptionType.Image
-
-                    }
-                }
-            };
-
-            return Json(dummyQuestion,JsonRequestBehavior.AllowGet);
+            return Json(_game.GetCurrentQuestion(),JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult RollDice()
-        {
-            if (IsCurrentUser(Request))
-            {
-                return Json(_game.RollDice(), JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(_game.GetCurrentDiceValue(), JsonRequestBehavior.AllowGet);
-            }
+        public JsonResult Question(int diceValue)
+        {   
+            return Json(_game.GetQuestion(diceValue), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -106,17 +79,35 @@ namespace MondlyBoardGame.Presentation.Controllers
                 if (UserProvider.IsValidUser(userName))
                 {
                     _game.JoinGame(new Player(userName));
+
+                    if (_game.CanStartGame())
+                    {
+                        _game.MoveToNextPlayer();
+                    }
+
                     HttpContext.Response.Cookies.Add(new HttpCookie("user", userName));
 
                     return RedirectToAction("Start");
                 }
 
-                return RedirectToAction("Join");
+                return RedirectToAction("InvalidUser");
             }
-            catch
+            catch(Exception e)
             {
-                return RedirectToAction("Join");
+                return RedirectToAction("InvalidUser");
             }
+        }
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult InvalidUser()
+        {
+            return Content("Invalid request");
         }
 
         private bool HasCookie(HttpRequestBase request)
@@ -133,7 +124,5 @@ namespace MondlyBoardGame.Presentation.Controllers
                 && _game.GetCurrentPlayerName().ToLowerInvariant()
                 .Equals(request.Cookies.Get("user").Value.ToLowerInvariant());
         }
-
-
     }
 }

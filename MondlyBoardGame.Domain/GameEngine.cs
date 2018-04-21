@@ -20,6 +20,7 @@ namespace MondlyBoardGame.Domain
         {
             _board = new Board(boardSize);
             _players = new List<Player>();
+
             _questionProvider = new QuestionProvider();
         }
 
@@ -59,8 +60,10 @@ namespace MondlyBoardGame.Domain
             return _currentDiceValue;
         }
 
-        public Question GetQuestion()
+        public Question GetQuestion(int diceValue)
         {
+            _currentDiceValue = diceValue;
+
             var questionType = _board.Positions
                 .Where(position => position.Index == GetNextPosition())
                 .Select(postion => postion.QuestionTopic)
@@ -112,7 +115,7 @@ namespace MondlyBoardGame.Domain
                 correctAnswer = true;
             }
 
-            if (IsGameOver())
+            if (!IsGameOver())
             {
                 MoveToNextPlayer();
             }
