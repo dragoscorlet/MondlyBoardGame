@@ -14,27 +14,6 @@ namespace MondlyBoardGame.Presentation.Controllers
         private  static GameEngine _game = new GameEngine(10);
 
         [HttpGet]
-        public ActionResult Join(string userName)
-        {
-            try
-            {   
-                //check db for username
-
-
-                _game.JoinGame(new Player(userName));
-                //Response.SetCookie(new HttpCookie("user",userName));
-                ///number of players is minimum enable start game
-                HttpContext.Response.Cookies.Add(new HttpCookie("user", userName));
-
-                return Json("dsda",JsonRequestBehavior.AllowGet);
-            }
-            catch
-            {
-                return Json("dsda", JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpGet]
         public JsonResult Board()
         {
             var board = new BoardViewModel(_game.GetBoard(), _game.GetAllPlayers());
@@ -45,6 +24,12 @@ namespace MondlyBoardGame.Presentation.Controllers
         public JsonResult GetDiceRoll()
         {
             return Json(_game.GetCurrentDiceValue());
+        }
+
+        [HttpGet]
+        public JsonResult CurrentPlayer()
+        {
+            return Json(_game.GetCurrentPlayerName(),JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -74,15 +59,58 @@ namespace MondlyBoardGame.Presentation.Controllers
         }
 
         [HttpGet]
+        public JsonResult RollDice()
+        {
+            return Json(_game.RollDice(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult AnswerQuestion(string answer, int questionId)
+        {
+           var success =  _game.ProcessAnswer(new Answer { Value = answer, QuestionId = questionId });
+
+            return Json(success, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult Start()
         {
-            if(HasCookie(Request))
+            return View();
+
+            if (HasCookie(Request))
             {
-               return  Content(string.Join(",", _game.GetUserNames()));
+                return new FilePathResult("~/Views/board.html", "text/html");
             }
             else
             {
-                return Content("Failed");
+               return RedirectToAction("Join");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CanStart()
+        {
+            return Json(_game.CanStartGame(),JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Join(string userName)
+        {
+            try
+            {
+                //check db for username
+
+
+                _game.JoinGame(new Player(userName));
+                //Response.SetCookie(new HttpCookie("user",userName));
+                ///number of players is minimum enable start game
+                HttpContext.Response.Cookies.Add(new HttpCookie("user", userName));
+
+                return Json("dsda", JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json("dsda", JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -92,18 +120,6 @@ namespace MondlyBoardGame.Presentation.Controllers
                 return false;
 
             return true;
-        }
-
-        public ActionResult RollDice()
-        {   
-            //return question
-            return View();
-        }
-
-        public ActionResult AnswerQuestion()
-        {   
-            //move to next
-            return null;
         }
 
 

@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HTML5 Canvas Drawing Board | onlyWebPro.com</title>
+    <link rel="stylesheet" type="text/css" href="css/board.css">
+    <script type="text/javascript" src="js/board.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <section class="container">
+        <div class="left-half">
+            <canvas id="game-canvas" width="700px" height="700px">
+                Sorry, your browser doesn't support canvas technology.
+            </canvas>
+            <script>
+
+                var canvas = document.getElementById("game-canvas");
+                var context = canvas.getContext("2d");
+
+                var boardSize = 6;
+                var border = canvas.width / 6;
+                var boardWidth = canvas.width - (border * 2);
+                var boardHeight = canvas.height - (border * 2);
+
+                var cellWidth = boardWidth / (boardSize - 1);
+                var cellHeight = boardHeight / (boardSize - 1);
+
+                var backgroundColor = '#F5DEB3';
+                var gridColor = '#8B4513';
+                context.fillStyle = backgroundColor;
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                context.fillStyle = gridColor;
+
+                for (var i = 0; i < boardSize - 1; i++) //Draws the board
+                {
+                    for (var j = 0; j < boardSize - 1; j++) {
+                        context.fillRect(i * cellWidth + border, j * cellHeight + border, cellWidth - 1, cellHeight - 1);
+                    }
+                }
+
+                var size = canvas.width / 40;
+                var textSpacing = 40;
+                context.fillStyle = '#000000';
+                context.font = size + "px Arial";
+
+                //draw the numbers and letters
+                for (i = 0; i < boardSize - 1; i++) {
+                    context.fillText((i + 1), textSpacing, ((canvas.height - border - cellHeight / 2) - (i * cellHeight)) + (size / 3));
+                    //context.fillText((i + 1), canvas.width - (size + textSpacing), ((canvas.height - border) - (i * cellHeight)) + (size / 3));
+
+                    //context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), textSpacing + size);
+                    context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), canvas.height - (textSpacing * 2));
+                }
+
+                //draw start square
+                context.fillStyle = "#FF0000";
+                context.fillRect(border - cellWidth, canvas.height - border, cellWidth - 1, cellHeight - 1);
+
+                context.fillStyle = '#000000';
+                context.font = size + "px Arial";
+                context.fillText("Start!", border - cellWidth, canvas.height - border);
+
+                //draw players
+
+
+                //roll dices
+
+                //question box
+
+                //game animations
+
+
+
+
+            </script>
+        </div>
+        <div class="right-half">
+            <div class="dices" id="dices">
+                <script>
+                    //preload the six images first
+                    var face0 = new Image()
+                    face0.src = "images/d1.gif"
+                    var face1 = new Image()
+                    face1.src = "images/d2.gif"
+                    var face2 = new Image()
+                    face2.src = "images/d3.gif"
+                    var face3 = new Image()
+                    face3.src = "images/d4.gif"
+                    var face4 = new Image()
+                    face4.src = "images/d5.gif"
+                    var face5 = new Image()
+                    face5.src = "images/d6.gif"
+                </script>
+
+
+                <img src="images/d1.gif" name="mydice">
+                <form>
+                    <input type="button" value="Throw dice!" onClick="throwdice()">
+                </form>
+
+                <script>
+                    function throwdice() {
+                        //create a random integer between 0 and 5
+                        var randomdice = Math.round(Math.random() * 5)
+                        document.images["mydice"].src = eval("face" + randomdice + ".src")
+                    }
+                </script>
+            </div>
+            <div class="questions" id="questions">
+
+            </div>
+            <div class="score" id="score">
+
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

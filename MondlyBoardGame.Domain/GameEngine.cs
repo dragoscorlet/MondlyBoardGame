@@ -98,6 +98,44 @@ namespace MondlyBoardGame.Domain
                 , StringComparison.InvariantCultureIgnoreCase);
         }
 
+        public bool CanStartGame()
+        {
+            return _players.Count >= 2;
+        }
+
+        public  bool ProcessAnswer(Answer answer)
+        {
+            bool correctAnswer = false;
+
+            if (IsValidAnswer(answer))
+            {
+                MovePlayerToNextPosition();
+                correctAnswer = true;
+            }
+
+            if (IsGameOver())
+            {
+                MoveToNextPlayer();
+            }
+            else
+            {
+                SetWinner();
+                SetStatistics();
+            }
+
+            return correctAnswer;
+        }
+
+        private void SetStatistics()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetWinner()
+        {
+            throw new NotImplementedException();
+        }
+
         private void MovePlayerToNextPosition()
         {
             _currentPlayer.CurrentPosition.Index += _currentDiceValue;
