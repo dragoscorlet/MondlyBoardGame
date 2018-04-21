@@ -41,18 +41,7 @@ namespace MondlyBoardGame.Presentation.Controllers
         [HttpGet]
         public JsonResult Question(int diceValue)
         {
-            var q = new Question
-            {
-                Statement = "What object appears in the image bellow?",
-                HasMultipleAnswers = false,
-                Id = 0,
-                QuestionType = 0,
-                AnswerOptions = new List<AnswerOption<string>>
-                { new AnswerOption<string> {Option = "https://cdnimg.webstaurantstore.com/images/products/extra_large/185385/641406.jpg"
-                ,Id = 0} }
-            };
-            return Json(q, JsonRequestBehavior.AllowGet);
-            //return Json(_game.GetQuestion(diceValue), JsonRequestBehavior.AllowGet);
+            return Json(_game.GetQuestion(diceValue), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -66,14 +55,14 @@ namespace MondlyBoardGame.Presentation.Controllers
         [HttpGet]
         public ActionResult Start()
         {
-            //if (HasCookie(Request))
-            //{
+            if (HasCookie(Request))
+            {
                 return View();
-            //}
-            //else
-            //{
-               //return RedirectToAction("Join");
-            //}
+            }
+            else
+            {
+                return RedirectToAction("Join");
+            }
         }
 
         [HttpGet]
@@ -87,8 +76,8 @@ namespace MondlyBoardGame.Presentation.Controllers
         {
             try
             {
-                //if (UserProvider.IsValidUser(userName))
-                //{
+                if (UserProvider.IsValidUser(userName))
+                {
                     _game.JoinGame(new Player(userName));
 
                     if (_game.CanStartGame())
@@ -99,10 +88,10 @@ namespace MondlyBoardGame.Presentation.Controllers
                     HttpContext.Response.Cookies.Add(new HttpCookie("user", userName));
 
                     return RedirectToAction("Start");
-                //}
+                }
 
-                //return RedirectToAction("InvalidUser");
-            }
+                return RedirectToAction("InvalidUser");
+                }
             catch(Exception e)
             {
                 return RedirectToAction("InvalidUser");
