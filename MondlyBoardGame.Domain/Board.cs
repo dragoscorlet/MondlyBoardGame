@@ -12,9 +12,9 @@ namespace MondlyBoardGame.Domain
         public List<Position> Positions { get; private set; }
         private Random random;
 
-        public Board(int size)
+        public Board()
         {
-            Size = size;
+            Size = 25;
             random = new Random(DateTime.Now.Millisecond);
             Positions =  Enumerable.Range(1,25).Select(index =>new Position(GetRandQuestionType(),index)).ToList();
         }

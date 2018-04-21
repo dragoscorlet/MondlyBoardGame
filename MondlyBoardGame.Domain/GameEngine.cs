@@ -16,9 +16,9 @@ namespace MondlyBoardGame.Domain
         private Question _currentQuestion;
         private QuestionProvider _questionProvider;
 
-        public GameEngine(int boardSize)
+        public GameEngine()
         {
-            _board = new Board(boardSize);
+            _board = new Board();
             _players = new List<Player>();
 
             _questionProvider = new QuestionProvider();
@@ -153,9 +153,9 @@ namespace MondlyBoardGame.Domain
             return _currentPlayer.Name;
         }
 
-        public List<string> GetUserNames()
+        public List<UserScore> GetUserScores()
         {
-            return _players.Select(p => p.Name).ToList();
+            return _players.Select(p => new UserScore {UserName = p.Name, Score = p.CurrentPosition.Index.ToString() } ).ToList();
         }
 
         private bool IsGameOver()

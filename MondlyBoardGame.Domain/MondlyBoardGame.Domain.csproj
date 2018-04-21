@@ -54,6 +54,7 @@
     <Compile Include="QuestionProvider.cs" />
     <Compile Include="QuestionType.cs" />
     <Compile Include="UserProvider.cs" />
+    <Compile Include="UserScore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MondlyBoardGame.DAL\MondlyBoardGame.DAL.csproj">
