@@ -10,17 +10,18 @@ namespace MondlyBoardGame.Domain
     {
         public int Size {get; private set;}
         public List<Position> Positions { get; private set; }
+        private Random random;
 
         public Board(int size)
         {
             Size = size;
+            random = new Random(DateTime.Now.Millisecond);
             Positions =  Enumerable.Range(1,25).Select(index =>new Position(GetRandQuestionType(),index)).ToList();
         }
 
         private QuestionType GetRandQuestionType()
         {
-            var rnd = new Random(DateTime.Now.Millisecond);
-            return (QuestionType)Enum.Parse(typeof(QuestionType),rnd.Next(0, 3).ToString());
+            return (QuestionType)Enum.Parse(typeof(QuestionType),random.Next(0, 3).ToString());
         }
     }
 }

@@ -53,6 +53,13 @@
     <Compile Include="Question.cs" />
     <Compile Include="QuestionProvider.cs" />
     <Compile Include="QuestionType.cs" />
+    <Compile Include="UserProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MondlyBoardGame.DAL\MondlyBoardGame.DAL.csproj">
+      <Project>{302f0315-3996-4c12-8ac3-b18c3194c59c}</Project>
+      <Name>MondlyBoardGame.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

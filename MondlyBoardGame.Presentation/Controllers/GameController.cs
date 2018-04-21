@@ -61,7 +61,14 @@ namespace MondlyBoardGame.Presentation.Controllers
         [HttpGet]
         public JsonResult RollDice()
         {
-            return Json(_game.RollDice(), JsonRequestBehavior.AllowGet);
+            if (IsCurrentUser(Request))
+            {
+                return Json(_game.RollDice(), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(_game.GetCurrentDiceValue(), JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpGet]
@@ -75,11 +82,9 @@ namespace MondlyBoardGame.Presentation.Controllers
         [HttpGet]
         public ActionResult Start()
         {
-            return View();
-
             if (HasCookie(Request))
             {
-                return new FilePathResult("~/Views/board.html", "text/html");
+                return View();
             }
             else
             {
@@ -98,19 +103,19 @@ namespace MondlyBoardGame.Presentation.Controllers
         {
             try
             {
-                //check db for username
+                if (UserProvider.IsValidUser(userName))
+                {
+                    _game.JoinGame(new Player(userName));
+                    HttpContext.Response.Cookies.Add(new HttpCookie("user", userName));
 
+                    return RedirectToAction("Start");
+                }
 
-                _game.JoinGame(new Player(userName));
-                //Response.SetCookie(new HttpCookie("user",userName));
-                ///number of players is minimum enable start game
-                HttpContext.Response.Cookies.Add(new HttpCookie("user", userName));
-
-                return Json("dsda", JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Join");
             }
             catch
             {
-                return Json("dsda", JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Join");
             }
         }
 
@@ -120,6 +125,13 @@ namespace MondlyBoardGame.Presentation.Controllers
                 return false;
 
             return true;
+        }
+
+        private bool IsCurrentUser(HttpRequestBase request)
+        {
+          return  HasCookie(request) 
+                && _game.GetCurrentPlayerName().ToLowerInvariant()
+                .Equals(request.Cookies.Get("user").Value.ToLowerInvariant());
         }
 
 
