@@ -15,7 +15,7 @@ namespace MondlyBoardGame.Domain
         public Player(string name)
         {
             Name = name;
-            CurrentPosition = new Position(QuestionTopic.Undefined, 0);
+            CurrentPosition = new Position(QuestionType.MultipleImage, 1);
         }
 
         public int RollDice()
