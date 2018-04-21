@@ -57,13 +57,13 @@
 
                                 if (data[i][j].HasPlayers) {
                                     switch (data[i][j].PlayerNames.length) {
-                                        case 0:
+                                        case 1:
                                             context.fillStyle = "#ffd800";
                                             context.beginPath();
                                             context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
                                             context.fill();
                                             break;
-                                        case 1:
+                                        case 2:
                                             context.fillStyle = "#ffd800";
                                             context.beginPath();
                                             context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
@@ -74,7 +74,7 @@
                                             context.arc(i * cellWidth + border + cellWidth / 2 + 20, j * cellHeight + border + cellHeight / 2 - 20, 10, 0, 2 * Math.PI);
                                             context.fill();
                                             break;
-                                        case 2:
+                                        case 3:
                                             context.fillStyle = "#ff0000";
                                             context.beginPath();
                                             context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
