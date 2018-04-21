@@ -119,9 +119,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Views\css\board.css" />
     <Content Include="Views\images\avatar.png" />
     <Content Include="Views\board.html" />
     <Content Include="Views\css\style.css" />
+    <Content Include="Views\images\d1.gif" />
+    <Content Include="Views\images\d2.gif" />
+    <Content Include="Views\images\d3.gif" />
+    <Content Include="Views\images\d4.gif" />
+    <Content Include="Views\images\d5.gif" />
+    <Content Include="Views\images\d6.gif" />
     <Content Include="Views\js\board.js" />
     <Content Include="Views\js\login.js" />
     <Content Include="Views\login.html" />

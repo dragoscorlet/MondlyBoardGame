@@ -1,137 +1,140 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-        canvas {
-            border: 1px solid #d3d3d3;
-            background-color: #f1f1f1;
-        }
-    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HTML5 Canvas Drawing Board | onlyWebPro.com</title>
+    <link rel="stylesheet" type="text/css" href="css/board.css">
+    <script type="text/javascript" src="js/board.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<body onload="startGame()">
-    <script>
+<body>
 
-        var myGamePiece;
-        var myObstacles = [];
-        var myScore;
+    <section class="container">
+        <div class="left-half">
+            <canvas id="game-canvas" width="700px" height="700px">
+                Sorry, your browser doesn't support canvas technology.
+            </canvas>
+            <script>
 
-        function startGame() {
-            myGamePiece = new component(30, 30, "red", 10, 120);
-            myGamePiece.gravity = 0.05;
-            myScore = new component("30px", "Consolas", "black", 280, 40, "text");
-            myGameArea.start();
-        }
+                var canvas = document.getElementById("game-canvas");
+                var context = canvas.getContext("2d");
 
-        var myGameArea = {
-            canvas: document.createElement("canvas"),
-            start: function () {
-                this.canvas.width = 480;
-                this.canvas.height = 270;
-                this.context = this.canvas.getContext("2d");
-                document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-                this.frameNo = 0;
-                this.interval = setInterval(updateGameArea, 20);
-            },
-            clear: function () {
-                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            }
-        }
+                var boardSize = 6;
+                var border = canvas.width / 6;
+                var boardWidth = canvas.width - (border * 2);
+                var boardHeight = canvas.height - (border * 2);
 
-        function component(width, height, color, x, y, type) {
-            this.type = type;
-            this.score = 0;
-            this.width = width;
-            this.height = height;
-            this.speedX = 0;
-            this.speedY = 0;
-            this.x = x;
-            this.y = y;
-            this.gravity = 0;
-            this.gravitySpeed = 0;
-            this.update = function () {
-                ctx = myGameArea.context;
-                if (this.type == "text") {
-                    ctx.font = this.width + " " + this.height;
-                    ctx.fillStyle = color;
-                    ctx.fillText(this.text, this.x, this.y);
-                } else {
-                    ctx.fillStyle = color;
-                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                var cellWidth = boardWidth / (boardSize - 1);
+                var cellHeight = boardHeight / (boardSize - 1);
+
+                var backgroundColor = '#F5DEB3';
+                var gridColor = '#8B4513';
+                context.fillStyle = backgroundColor;
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                context.fillStyle = gridColor;
+
+                for (var i = 0; i < boardSize - 1; i++) //Draws the board
+                {
+                    for (var j = 0; j < boardSize - 1; j++) {
+                        context.fillRect(i * cellWidth + border, j * cellHeight + border, cellWidth - 1, cellHeight - 1);
+                    }
                 }
-            }
-            this.newPos = function () {
-                this.gravitySpeed += this.gravity;
-                this.x += this.speedX;
-                this.y += this.speedY + this.gravitySpeed;
-                this.hitBottom();
-            }
-            this.hitBottom = function () {
-                var rockbottom = myGameArea.canvas.height - this.height;
-                if (this.y > rockbottom) {
-                    this.y = rockbottom;
-                    this.gravitySpeed = 0;
-                }
-            }
-            this.crashWith = function (otherobj) {
-                var myleft = this.x;
-                var myright = this.x + (this.width);
-                var mytop = this.y;
-                var mybottom = this.y + (this.height);
-                var otherleft = otherobj.x;
-                var otherright = otherobj.x + (otherobj.width);
-                var othertop = otherobj.y;
-                var otherbottom = otherobj.y + (otherobj.height);
-                var crash = true;
-                if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-                    crash = false;
-                }
-                return crash;
-            }
-        }
 
-        function updateGameArea() {
-            var x, height, gap, minHeight, maxHeight, minGap, maxGap;
-            for (i = 0; i < myObstacles.length; i += 1) {
-                if (myGamePiece.crashWith(myObstacles[i])) {
-                    return;
+                var size = canvas.width / 40;
+                var textSpacing = 40;
+                context.fillStyle = '#000000';
+                context.font = size + "px Arial";
+
+                //draw the numbers and letters
+                for (i = 0; i < boardSize - 1; i++) {
+                    context.fillText((i + 1), textSpacing, ((canvas.height - border - cellHeight / 2) - (i * cellHeight)) + (size / 3));
+                    //context.fillText((i + 1), canvas.width - (size + textSpacing), ((canvas.height - border) - (i * cellHeight)) + (size / 3));
+
+                    //context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), textSpacing + size);
+                    context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), canvas.height - (textSpacing * 2));
                 }
-            }
-            myGameArea.clear();
-            myGameArea.frameNo += 1;
-            if (myGameArea.frameNo == 1 || everyinterval(150)) {
-                x = myGameArea.canvas.width;
-                minHeight = 20;
-                maxHeight = 200;
-                height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
-                minGap = 50;
-                maxGap = 200;
-                gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-                myObstacles.push(new component(10, height, "green", x, 0));
-                myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
-            }
-            for (i = 0; i < myObstacles.length; i += 1) {
-                myObstacles[i].x += -1;
-                myObstacles[i].update();
-            }
-            myScore.text = "SCORE: " + myGameArea.frameNo;
-            myScore.update();
-            myGamePiece.newPos();
-            myGamePiece.update();
-        }
 
-        function everyinterval(n) {
-            if ((myGameArea.frameNo / n) % 1 == 0) { return true; }
-            return false;
-        }
+                //draw start square
+                context.fillStyle = "#FF0000";
+                context.fillRect(border - cellWidth, canvas.height - border, cellWidth - 1, cellHeight - 1);
 
-        function accelerate(n) {
-            myGamePiece.gravity = n;
-        }
-    </script>
-    <br>
-    <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
-    <p>Use the ACCELERATE button to stay in the air</p>
-    <p>How long can you stay alive?</p>
+                context.fillStyle = '#000000';
+                context.font = size + "px Arial";
+                context.fillText("Start!", border - cellWidth, canvas.height - border);
+
+                //draw players
+
+
+                //roll dices
+
+                //question box
+
+                //game animations
+
+
+
+
+            </script>
+        </div>
+        <div class="right-half">
+            <div id="dices" height="33%">
+
+
+                <script>
+
+                    /*
+                    JavaScript dice (by JavaScript Kit, http://javascriptkit.com)
+                    Over 200+ free scripts here!
+                    */
+
+                    //preload the six images first
+                    var face0 = new Image()
+                    face0.src = "d1.gif"
+                    var face1 = new Image()
+                    face1.src = "d2.gif"
+                    var face2 = new Image()
+                    face2.src = "d3.gif"
+                    var face3 = new Image()
+                    face3.src = "d4.gif"
+                    var face4 = new Image()
+                    face4.src = "d5.gif"
+                    var face5 = new Image()
+                    face5.src = "d6.gif"
+                </script>
+
+
+                <img src="d1.gif" name="mydice">
+                <form>
+                    <input type="button" value="Throw dice!" onClick="throwdice()">
+                </form>
+                <script>
+                    function throwdice() {
+                        //create a random integer between 0 and 5
+                        var randomdice = Math.round(Math.random() * 5)
+                        document.images["mydice"].src = eval("face" + randomdice + ".src")
+                    }
+                </script>
+                <p align="center">
+                    <font face="arial" size="-2">This free script provided by</font><br>
+                    <font face="arial, helvetica" size="-2">
+                        <a href="http://javascriptkit.com">
+                            JavaScript
+                            Kit
+                        </a>
+                    </font>
+                </p>
+
+
+            </div>
+            <div id="questions">
+
+            </div>
+            <div id="score">
+
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>
