@@ -104,9 +104,6 @@
                         //draw the numbers and letters
                         for (i = 0; i < boardSize; i++) {
                             context.fillText((i + 1), textSpacing, ((canvas.height - border - cellHeight / 2) - (i * cellHeight)) + (size / 3));
-                            //context.fillText((i + 1), canvas.width - (size + textSpacing), ((canvas.height - border) - (i * cellHeight)) + (size / 3));
-
-                            //context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), textSpacing + size);
                             context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), canvas.height - (textSpacing * 2));
                         }
 
@@ -146,12 +143,68 @@
                 <script>
                     function throwdice() {
                         //create a random integer between 0 and 5
-                        var randomdice = Math.round(Math.random() * 5)
-                        document.images["mydice"].src = eval("face" + randomdice + ".src")
+                        var randomdice = Math.round(Math.random() * 5);
+                        document.images["mydice"].src = eval("face" + randomdice + ".src");
+                        
+                        $.ajax({
+                            url: "http://localhost:51994/game/question?dicevalue=" + randomdice,
+                            type: 'GET',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                switch (data.QuestionType) {
+                                    case 0://multiple image
+                                        document.getElementById("question1").hidden = false;
+                                        document.getElementById("question1Lable").innerHTML = data.Statement;
+                                        document.getElementById("question1image").src = data.AnswerOptions[0].Option;
+                                        
+                                        break;
+                                    case 1://single image
+                                        document.getElementById("question2").hidden = false;
+                                        document.getElementById("question2Lable").innerHTML = data.Statement;
+                                        document.getElementById("question2image").src = data.AnswerOptions;
+                                        break;
+                                    case 2:
+                                        break;
+                                }
+                            },
+                            error: function (msg) { alert(msg); }
+                        });
                     }
                 </script>
+               
+
             </div>
-            <div class="questions" id="questions">
+            <div class="questions" id="question">
+                
+                <div id="question1" hidden>
+                    <label id="question1Lable" for="other"></label>
+                    <br>
+                    <img id="question1image" src="" />
+                    <br>
+                    <button onclick="submitQuestionAnswer();" style="width:auto;">Submit</button>
+                </div>
+                <div id="question2" hidden>
+                    <label id="question2Lable" for="other"></label>
+                    <br />
+                    
+
+                    <button onclick="submitQuestionAnswer();" style="width:auto;">Submit</button>
+                </div>
+
+                <script>
+                    function submitQuestionAnswer() {
+                        var answer = document.getElementById("answer").nodeValue;
+                        $.ajax({
+                            url: "http://localhost:51994/game/question?answervalue=" + answer,
+                            type: 'GET',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+
+                            },
+                            error: function (msg) { alert(msg); }
+                        });
+                    }
+                </script>
 
             </div>
             <div class="score" id="score">

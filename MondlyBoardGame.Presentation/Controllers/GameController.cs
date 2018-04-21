@@ -46,7 +46,7 @@ namespace MondlyBoardGame.Presentation.Controllers
 
         [HttpGet]
         public JsonResult Question(int diceValue)
-        {   
+        {
             return Json(_game.GetQuestion(diceValue), JsonRequestBehavior.AllowGet);
         }
 
@@ -67,7 +67,7 @@ namespace MondlyBoardGame.Presentation.Controllers
             }
             else
             {
-               return RedirectToAction("Join");
+                return RedirectToAction("Join");
             }
         }
 
@@ -97,7 +97,7 @@ namespace MondlyBoardGame.Presentation.Controllers
                 }
 
                 return RedirectToAction("InvalidUser");
-            }
+                }
             catch(Exception e)
             {
                 return RedirectToAction("InvalidUser");
