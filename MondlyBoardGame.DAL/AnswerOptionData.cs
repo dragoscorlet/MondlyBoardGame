@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MondlyBoardGame.DAL
 {
-    public class Class1
+    public  class AnswerOptionData
     {
+        public int Id { get; set; }
+        public string Option { get; set; }
     }
 }

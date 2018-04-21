@@ -91,11 +91,8 @@ namespace MondlyBoardGame.Domain
 
         private bool IsValidAnswer(Answer playerAnswer)
         {
-            var rightAnswer = _questionProvider.GetAnswer(playerAnswer.QuestionId);
+            return _questionProvider.IsValidAnswer(playerAnswer.Value, playerAnswer.QuestionId);
 
-            return string.Equals(playerAnswer.Value.Trim()
-                , rightAnswer.Value
-                , StringComparison.InvariantCultureIgnoreCase);
         }
 
         public bool CanStartGame()
