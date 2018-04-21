@@ -66,7 +66,9 @@ namespace MondlyBoardGame.Domain
                 .Select(postion => postion.QuestionTopic)
                 .FirstOrDefault();
 
-           return  _questionProvider.GetRandomQuestion(questionType);
+           _currentQuestion = _questionProvider.GetRandomQuestion(questionType);
+
+            return _currentQuestion;
         }
 
         public Question GetCurrentQuestion()
