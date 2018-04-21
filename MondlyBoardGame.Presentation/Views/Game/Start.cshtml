@@ -146,71 +146,65 @@
                         var randomdice = Math.round(Math.random() * 5);
                         document.images["mydice"].src = eval("face" + randomdice + ".src");
                         
-
-                        //$.ajax({
-                        //    url: "http://localhost:51994/game/question?dicevalue=" + randomdice,
-                        //    type: 'GET',
-                        //    contentType: "application/json; charset=utf-8",
-                        //    success: function (data) {
-                        //        switch (data.QuestionType) {
-                        //            case 0://single choice text
-                        //                var lable = document.createElement("LABEL");
-                        //                var text = document.createTextNode("Male");
-                        //                lable.appendChild(text);
-                        //                document.getElementById("question").appendChild(lable);
-                        //                break;
-                        //            case 1://multiple image
-                        //                break;
-                        //            case 2://single image
-                        //                break;
-                        //        }
-                        //        //document.getElementById("question").appendChild();
-
-                        //        alert(data);
-                        //    },
-                        //    error: function (msg) { alert(msg); }
-                        //});
+                        $.ajax({
+                            url: "http://localhost:51994/game/question?dicevalue=" + randomdice,
+                            type: 'GET',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                switch (data.QuestionType) {
+                                    case 0://multiple image
+                                        document.getElementById("question1").hidden = false;
+                                        document.getElementById("question1Lable").innerHTML = data.Statement;
+                                        document.getElementById("question1image").src = data.AnswerOptions[0].Option;
+                                        
+                                        break;
+                                    case 1://single image
+                                        document.getElementById("question2").hidden = false;
+                                        document.getElementById("question2Lable").innerHTML = data.Statement;
+                                        document.getElementById("question2image").src = data.AnswerOptions;
+                                        break;
+                                    case 2:
+                                        break;
+                                }
+                            },
+                            error: function (msg) { alert(msg); }
+                        });
                     }
                 </script>
-                {
-                "Id": 1,
-                "QuestionType": 2,
-                "Statement": "What object appears in the image bellow",
-                "HasMultipleAnswers": false,
-                "AnswerOptions": [
-                {
-                "Id": 1,
-                "Option": "https:\/\/cdnimg.webstaurantstore.com\/images\/products\/extra_large\/185385\/641406.jpg",
-                "OptionType": 0
-                }
-                ]
-                }
+               
 
             </div>
             <div class="questions" id="question">
-                <div hidden>
-                    <label for="other">question here</label>
+                
+                <div id="question1" hidden>
+                    <label id="question1Lable" for="other"></label>
+                    <br>
+                    <img id="question1image" src="" />
+                    <br>
+                    <button onclick="submitQuestionAnswer();" style="width:auto;">Submit</button>
+                </div>
+                <div id="question2" hidden>
+                    <label id="question2Lable" for="other"></label>
+                    <br />
+                    
 
-                    <input type="radio" name="gender" value="male"> Male<br>
-                    <input type="radio" name="gender" value="female"> Female<br>
-                    <input type="radio" name="gender" value="other"> Other
-
-                    <button onclick="submitQuestionAnswer();" style="width:auto;">Login</button>
+                    <button onclick="submitQuestionAnswer();" style="width:auto;">Submit</button>
                 </div>
 
-                <div hidden>
-                    <label for="other">question here</label>
+                <script>
+                    function submitQuestionAnswer() {
+                        var answer = document.getElementById("answer").nodeValue;
+                        $.ajax({
+                            url: "http://localhost:51994/game/question?answervalue=" + answer,
+                            type: 'GET',
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
 
-                    <img src="#" alt="Alternate Text" />
-
-                    <input type="text" id="submitAnswer" name="submitAnswer" value="">
-                </div>
-
-                <div hidden>
-                    <label for="other">question here</label>
-
-                    <input type="submit" value="Submit">
-                </div>
+                            },
+                            error: function (msg) { alert(msg); }
+                        });
+                    }
+                </script>
 
             </div>
             <div class="score" id="score">
