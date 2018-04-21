@@ -152,19 +152,35 @@
                             contentType: "application/json; charset=utf-8",
                             success: function (data) {
                                 switch (data.QuestionType) {
-                                    case 0://multiple image
-                                        document.getElementById("question1").hidden = false;
-                                        document.getElementById("question1Lable").innerHTML = data.Statement;
-                                        document.getElementById("question1image").src = data.AnswerOptions[0].Option;
+                                    case 0://single choice text
+                                        document.getElementById("question0").hidden = false;
+                                        document.getElementById("question1").hidden = true;
+                                        document.getElementById("question2").hidden = true;
+                                        document.getElementById("question0Lable").innerHTML = data.Statement;
                                         
                                         break;
-                                    case 1://single image
+                                    case 1://multiple image
+                                        document.getElementById("question0").hidden = true;
+                                        document.getElementById("question1").hidden = false;
+                                        document.getElementById("question2").hidden = true;
+                                        document.getElementById("question1Lable").innerHTML = data.Statement;
+                                        document.getElementById("question1image1").src = data.AnswerOptions[0].Option;
+                                        document.getElementById("optionvalue1").value = data.AnswerOptions[0].Option;
+                                        document.getElementById("question1image2").src = data.AnswerOptions[1].Option;
+                                        document.getElementById("optionvalue2").value = data.AnswerOptions[1].Option;
+                                        document.getElementById("question1image3").src = data.AnswerOptions[2].Option;
+                                        document.getElementById("optionvalue3").value = data.AnswerOptions[2].Option;
+                                        break;
+                                    case 2://single image with text
+                                        document.getElementById("question0").hidden = true;
+                                        document.getElementById("question1").hidden = true;
                                         document.getElementById("question2").hidden = false;
                                         document.getElementById("question2Lable").innerHTML = data.Statement;
-                                        document.getElementById("question2image").src = data.AnswerOptions;
+                                        document.getElementById("question2image1").src = data.AnswerOptions[0].Option;
                                         break;
-                                    case 2:
-                                        break;
+
+                                        document.getElementById("questionId").value = data.Id;
+                                    
                                 }
                             },
                             error: function (msg) { alert(msg); }
@@ -175,27 +191,61 @@
 
             </div>
             <div class="questions" id="question">
-                
+                <input type="hidden" id="questionId" name="questionId" value="">
+                <div id="question0" hidden>
+                    <label id="question0Lable" for="other"></label>
+                    <br>
+                    <br>
+                    <input id="question0input" type="text" value="" size="30">
+                    <br>
+                    <button onclick="submitQuestionAnswer(0);" style="width:auto;">Submit</button>
+                </div>
                 <div id="question1" hidden>
                     <label id="question1Lable" for="other"></label>
-                    <br>
-                    <img id="question1image" src="" />
-                    <br>
-                    <button onclick="submitQuestionAnswer();" style="width:auto;">Submit</button>
+                    <br />
+                    <input type="radio" id="optionvalue1" name="optionvalue" value=""><img id="question1image1" src="#" />
+                    <input type="radio" id="optionvalue2" name="optionvalue" value=""><img id="question1image2" src="#" />
+                    <input type="radio" id="optionvalue3" name="optionvalue" value=""><img id="question1image3" src="#" />
+                    <br />
+                    <button onclick="submitQuestionAnswer(1);" style="width:auto;">Submit</button>
                 </div>
+
                 <div id="question2" hidden>
                     <label id="question2Lable" for="other"></label>
                     <br />
-                    
-
-                    <button onclick="submitQuestionAnswer();" style="width:auto;">Submit</button>
+                    <img id="question2image1" src="#" alt="Alternate Text" />
+                    <br />
+                    <input id="question2input" type="text" value="" size="30">
+                    <br />
+                    <button onclick="submitQuestionAnswer(2);" style="width:auto;">Submit</button>
                 </div>
 
                 <script>
-                    function submitQuestionAnswer() {
-                        var answer = document.getElementById("answer").nodeValue;
+                    function submitQuestionAnswer(answerType) {
+
+                        var answer;
+                        var questionId = document.getElementById("questionId").value;
+                        switch (answerType) {
+                            case 0:
+                                answer = document.getElementById("question0input").value;
+                                break;
+                            case 1:
+                                if (document.getElementById('optionvalue1').checked) {
+                                    answer = document.getElementById('optionvalue1').value;
+                                }
+                                if (document.getElementById('optionvalue2').checked) {
+                                    answer = document.getElementById('optionvalue2').value;
+                                }
+                                if (document.getElementById('optionvalue3').checked) {
+                                    answer = document.getElementById('optionvalue3').value;
+                                }
+                                break;
+                            case 2:
+                                answer = document.getElementById("question2input").value;
+                                break;
+                        }
                         $.ajax({
-                            url: "http://localhost:51994/game/question?answervalue=" + answer,
+                            url: "http://localhost:51994/game/AnswerQuestion?answer=" + answer + "&questionId=" + questionId,
                             type: 'GET',
                             contentType: "application/json; charset=utf-8",
                             success: function (data) {
