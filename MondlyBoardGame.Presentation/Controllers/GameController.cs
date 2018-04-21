@@ -11,7 +11,7 @@ namespace MondlyBoardGame.Presentation.Controllers
 {
     public class GameController : Controller
     {
-        private  static GameEngine _game = new GameEngine(10);
+        private  static GameEngine _game = new GameEngine();
 
         [HttpGet]
         public JsonResult Board()
@@ -36,6 +36,12 @@ namespace MondlyBoardGame.Presentation.Controllers
         public JsonResult CurrentQuestion()
         {
             return Json(_game.GetCurrentQuestion(),JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ConnectedUsers()
+        {
+            return Json(_game.GetUserScores(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -123,6 +129,14 @@ namespace MondlyBoardGame.Presentation.Controllers
           return  HasCookie(request) 
                 && _game.GetCurrentPlayerName().ToLowerInvariant()
                 .Equals(request.Cookies.Get("user").Value.ToLowerInvariant());
+        }
+
+        [HttpGet]
+        public ActionResult Reset()
+        {
+            _game = new GameEngine();
+
+            return Content("Game destoried!");
         }
     }
 }
