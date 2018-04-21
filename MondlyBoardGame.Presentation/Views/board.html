@@ -78,36 +78,29 @@
             </script>
         </div>
         <div class="right-half">
-            <div id="dices" height="33%">
-
-
+            <div class="dices" id="dices">
                 <script>
-
-                    /*
-                    JavaScript dice (by JavaScript Kit, http://javascriptkit.com)
-                    Over 200+ free scripts here!
-                    */
-
                     //preload the six images first
                     var face0 = new Image()
-                    face0.src = "d1.gif"
+                    face0.src = "images/d1.gif"
                     var face1 = new Image()
-                    face1.src = "d2.gif"
+                    face1.src = "images/d2.gif"
                     var face2 = new Image()
-                    face2.src = "d3.gif"
+                    face2.src = "images/d3.gif"
                     var face3 = new Image()
-                    face3.src = "d4.gif"
+                    face3.src = "images/d4.gif"
                     var face4 = new Image()
-                    face4.src = "d5.gif"
+                    face4.src = "images/d5.gif"
                     var face5 = new Image()
-                    face5.src = "d6.gif"
+                    face5.src = "images/d6.gif"
                 </script>
 
 
-                <img src="d1.gif" name="mydice">
+                <img src="images/d1.gif" name="mydice">
                 <form>
                     <input type="button" value="Throw dice!" onClick="throwdice()">
                 </form>
+
                 <script>
                     function throwdice() {
                         //create a random integer between 0 and 5
@@ -115,22 +108,11 @@
                         document.images["mydice"].src = eval("face" + randomdice + ".src")
                     }
                 </script>
-                <p align="center">
-                    <font face="arial" size="-2">This free script provided by</font><br>
-                    <font face="arial, helvetica" size="-2">
-                        <a href="http://javascriptkit.com">
-                            JavaScript
-                            Kit
-                        </a>
-                    </font>
-                </p>
-
+            </div>
+            <div class="questions" id="questions">
 
             </div>
-            <div id="questions">
-
-            </div>
-            <div id="score">
+            <div class="score" id="score">
 
             </div>
         </div>

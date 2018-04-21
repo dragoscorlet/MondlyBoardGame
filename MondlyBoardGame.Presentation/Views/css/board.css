@@ -49,29 +49,29 @@ h1 {
 .right-half {
     background-color: #F5DEB3;
     position: absolute;
+    display: inline-block;
     right: 0px;
     width: 50%;
 }
 
 .dices {
     background-color: #F5DEB3;
-    position: absolute;
     right: 0px;
-    width: 50%;
+    width: 100%;
+    height: 33%;
 }
 
 .questions {
     background-color: #F5DEB3;
-    position: absolute;
     right: 0px;
-    width: 50%;
+    width: 100%;
+    height: 33%;
 }
 
 .score {
     background-color: #F5DEB3;
     position: absolute;
     right: 0px;
-    width: 50%;
 }
 
 
