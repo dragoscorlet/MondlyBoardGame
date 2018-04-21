@@ -8,14 +8,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-
     <section class="container">
         <div class="left-half">
             <canvas id="game-canvas" width="700px" height="700px">
                 Sorry, your browser doesn't support canvas technology.
             </canvas>
-            <script>
 
+            <script>
+                updateBoard();
                 var canvas = document.getElementById("game-canvas");
                 var context = canvas.getContext("2d");
 

@@ -24,8 +24,8 @@ function loginUser() {
     });
 }
 
-function callbackfunction(result) {
-    if (result.test) {
-        location.href = baseurl + "board.html?test=" + result.test;
-    }
-}
+//function callbackfunction(result) {
+//    if (result.test) {
+//        location.href = baseurl + "board.html?test=" + result.test;
+//    }
+//}

@@ -2,10 +2,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>HTML5 Canvas Drawing Board | onlyWebPro.com</title>
-    <link rel="stylesheet" type="text/css" href="css/board.css">
-    <script type="text/javascript" src="js/board.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -15,65 +11,111 @@
                 Sorry, your browser doesn't support canvas technology.
             </canvas>
             <script>
+                $.ajax({
+                    url: "http://localhost:51994/game/board",
+                    type: 'GET',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        
+                        var canvas = document.getElementById("game-canvas");
+                        var context = canvas.getContext("2d");
 
-                var canvas = document.getElementById("game-canvas");
-                var context = canvas.getContext("2d");
+                        var boardSize = data.length;
+                        var border = canvas.width / 6;
+                        var boardWidth = canvas.width - (border * 2);
+                        var boardHeight = canvas.height - (border * 2);
 
-                var boardSize = 6;
-                var border = canvas.width / 6;
-                var boardWidth = canvas.width - (border * 2);
-                var boardHeight = canvas.height - (border * 2);
+                        var cellWidth = boardWidth / (boardSize);
+                        var cellHeight = boardHeight / (boardSize);
 
-                var cellWidth = boardWidth / (boardSize - 1);
-                var cellHeight = boardHeight / (boardSize - 1);
+                        var backgroundColor = '#F5DEB3';
+                        //var gridColor = '#060099';
+                        //var gridColor2 = '#ffd800';
+                        //var gridColor3 = '#ff0000';
+                        context.fillStyle = backgroundColor;
+                        context.fillRect(0, 0, canvas.width, canvas.height);
 
-                var backgroundColor = '#F5DEB3';
-                var gridColor = '#8B4513';
-                context.fillStyle = backgroundColor;
-                context.fillRect(0, 0, canvas.width, canvas.height);
+                        
 
-                context.fillStyle = gridColor;
+                        for (var i = 0; i < boardSize; i++) //Draws the board
+                        {
+                            for (var j = 0; j < boardSize; j++) {
+                                
+                                switch (data[i][j].QuestionTopic) {
+                                    case 0:
+                                        context.fillStyle = '#4d1f00';
+                                        break;
+                                    case 1:
+                                        context.fillStyle = '#e65c00';
+                                        break;
+                                    case 2:
+                                        context.fillStyle = '#ffc299';
+                                        break;
+                                }
+                                context.fillRect(i * cellWidth + border, j * cellHeight + border, cellWidth - 1, cellHeight - 1);
 
-                for (var i = 0; i < boardSize - 1; i++) //Draws the board
-                {
-                    for (var j = 0; j < boardSize - 1; j++) {
-                        context.fillRect(i * cellWidth + border, j * cellHeight + border, cellWidth - 1, cellHeight - 1);
+
+                                if (data[i][j].HasPlayers) {
+                                    switch (data[i][j].PlayerNames.length) {
+                                        case 0:
+                                            context.fillStyle = "#ffd800";
+                                            context.beginPath();
+                                            context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
+                                            context.fill();
+                                            break;
+                                        case 1:
+                                            context.fillStyle = "#ffd800";
+                                            context.beginPath();
+                                            context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
+                                            context.fill();
+
+                                            context.fillStyle = "#ff0000";
+                                            context.beginPath();
+                                            context.arc(i * cellWidth + border + cellWidth / 2 + 20, j * cellHeight + border + cellHeight / 2 - 20, 10, 0, 2 * Math.PI);
+                                            context.fill();
+                                            break;
+                                        case 2:
+                                            context.fillStyle = "#ff0000";
+                                            context.beginPath();
+                                            context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
+                                            context.fill();
+
+                                            context.fillStyle = "#ffd800";
+                                            context.beginPath();
+                                            context.arc(i * cellWidth + border + cellWidth / 2 + 20, j * cellHeight + border + cellHeight / 2 - 20, 10, 0, 2 * Math.PI);
+                                            context.fill();
+
+                                            context.fillStyle = "#0026ff";
+                                            context.beginPath();
+                                            context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 - 20, 10, 0, 2 * Math.PI);
+                                            context.fill();
+                                            break;
+                                    }
+
+                                }
+                            }
+                        }
+
+                        var size = canvas.width / 40;
+                        var textSpacing = 40;
+                        context.fillStyle = '#000000';
+                        context.font = size + "px Arial";
+
+                        //draw the numbers and letters
+                        for (i = 0; i < boardSize; i++) {
+                            context.fillText((i + 1), textSpacing, ((canvas.height - border - cellHeight / 2) - (i * cellHeight)) + (size / 3));
+                            //context.fillText((i + 1), canvas.width - (size + textSpacing), ((canvas.height - border) - (i * cellHeight)) + (size / 3));
+
+                            //context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), textSpacing + size);
+                            context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), canvas.height - (textSpacing * 2));
+                        }
+
+                    },
+                    error: function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
                     }
-                }
-
-                var size = canvas.width / 40;
-                var textSpacing = 40;
-                context.fillStyle = '#000000';
-                context.font = size + "px Arial";
-
-                //draw the numbers and letters
-                for (i = 0; i < boardSize - 1; i++) {
-                    context.fillText((i + 1), textSpacing, ((canvas.height - border - cellHeight / 2) - (i * cellHeight)) + (size / 3));
-                    //context.fillText((i + 1), canvas.width - (size + textSpacing), ((canvas.height - border) - (i * cellHeight)) + (size / 3));
-
-                    //context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), textSpacing + size);
-                    context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), canvas.height - (textSpacing * 2));
-                }
-
-                //draw start square
-                context.fillStyle = "#FF0000";
-                context.fillRect(border - cellWidth, canvas.height - border, cellWidth - 1, cellHeight - 1);
-
-                context.fillStyle = '#000000';
-                context.font = size + "px Arial";
-                context.fillText("Start!", border - cellWidth, canvas.height - border);
-
-                //draw players
-
-
-                //roll dices
-
-                //question box
-
-                //game animations
-
-
-
+                });
+                
 
             </script>
         </div>
@@ -82,21 +124,21 @@
                 <script>
                     //preload the six images first
                     var face0 = new Image()
-                    face0.src = "images/d1.gif"
+                    face0.src = "/images/d1.gif"
                     var face1 = new Image()
-                    face1.src = "images/d2.gif"
+                    face1.src = "/images/d2.gif"
                     var face2 = new Image()
-                    face2.src = "images/d3.gif"
+                    face2.src = "/images/d3.gif"
                     var face3 = new Image()
-                    face3.src = "images/d4.gif"
+                    face3.src = "/images/d4.gif"
                     var face4 = new Image()
-                    face4.src = "images/d5.gif"
+                    face4.src = "/images/d5.gif"
                     var face5 = new Image()
-                    face5.src = "images/d6.gif"
+                    face5.src = "/images/d6.gif"
                 </script>
 
 
-                <img src="images/d1.gif" name="mydice">
+                <img src="/images/d1.gif" name="mydice">
                 <form>
                     <input type="button" value="Throw dice!" onClick="throwdice()">
                 </form>
