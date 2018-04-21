@@ -103,13 +103,13 @@ namespace MondlyBoardGame.Presentation.Controllers
         {
             try
             {
-                if (UserProvider.IsValidUser(userName))
-                {
+                //if (UserProvider.IsValidUser(userName))
+                //{
                     _game.JoinGame(new Player(userName));
                     HttpContext.Response.Cookies.Add(new HttpCookie("user", userName));
 
                     return RedirectToAction("Start");
-                }
+                //}
 
                 return RedirectToAction("Join");
             }

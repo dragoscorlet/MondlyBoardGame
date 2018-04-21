@@ -57,13 +57,13 @@
 
                                 if (data[i][j].HasPlayers) {
                                     switch (data[i][j].PlayerNames.length) {
-                                        case 0:
+                                        case 1:
                                             context.fillStyle = "#ffd800";
                                             context.beginPath();
                                             context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
                                             context.fill();
                                             break;
-                                        case 1:
+                                        case 2:
                                             context.fillStyle = "#ffd800";
                                             context.beginPath();
                                             context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
@@ -74,7 +74,7 @@
                                             context.arc(i * cellWidth + border + cellWidth / 2 + 20, j * cellHeight + border + cellHeight / 2 - 20, 10, 0, 2 * Math.PI);
                                             context.fill();
                                             break;
-                                        case 2:
+                                        case 3:
                                             context.fillStyle = "#ff0000";
                                             context.beginPath();
                                             context.arc(i * cellWidth + border + cellWidth / 2 - 20, j * cellHeight + border + cellHeight / 2 + 20, 10, 0, 2 * Math.PI);
@@ -104,9 +104,6 @@
                         //draw the numbers and letters
                         for (i = 0; i < boardSize; i++) {
                             context.fillText((i + 1), textSpacing, ((canvas.height - border - cellHeight / 2) - (i * cellHeight)) + (size / 3));
-                            //context.fillText((i + 1), canvas.width - (size + textSpacing), ((canvas.height - border) - (i * cellHeight)) + (size / 3));
-
-                            //context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), textSpacing + size);
                             context.fillText((i + 1), (border + cellWidth / 2 + (i * cellHeight) + (size / 3)) - (size / 1.5), canvas.height - (textSpacing * 2));
                         }
 
@@ -146,12 +143,74 @@
                 <script>
                     function throwdice() {
                         //create a random integer between 0 and 5
-                        var randomdice = Math.round(Math.random() * 5)
-                        document.images["mydice"].src = eval("face" + randomdice + ".src")
+                        var randomdice = Math.round(Math.random() * 5);
+                        document.images["mydice"].src = eval("face" + randomdice + ".src");
+                        
+
+                        //$.ajax({
+                        //    url: "http://localhost:51994/game/question?dicevalue=" + randomdice,
+                        //    type: 'GET',
+                        //    contentType: "application/json; charset=utf-8",
+                        //    success: function (data) {
+                        //        switch (data.QuestionType) {
+                        //            case 0://single choice text
+                        //                var lable = document.createElement("LABEL");
+                        //                var text = document.createTextNode("Male");
+                        //                lable.appendChild(text);
+                        //                document.getElementById("question").appendChild(lable);
+                        //                break;
+                        //            case 1://multiple image
+                        //                break;
+                        //            case 2://single image
+                        //                break;
+                        //        }
+                        //        //document.getElementById("question").appendChild();
+
+                        //        alert(data);
+                        //    },
+                        //    error: function (msg) { alert(msg); }
+                        //});
                     }
                 </script>
+                {
+                "Id": 1,
+                "QuestionType": 2,
+                "Statement": "What object appears in the image bellow",
+                "HasMultipleAnswers": false,
+                "AnswerOptions": [
+                {
+                "Id": 1,
+                "Option": "https:\/\/cdnimg.webstaurantstore.com\/images\/products\/extra_large\/185385\/641406.jpg",
+                "OptionType": 0
+                }
+                ]
+                }
+
             </div>
-            <div class="questions" id="questions">
+            <div class="questions" id="question">
+                <div hidden>
+                    <label for="other">question here</label>
+
+                    <input type="radio" name="gender" value="male"> Male<br>
+                    <input type="radio" name="gender" value="female"> Female<br>
+                    <input type="radio" name="gender" value="other"> Other
+
+                    <button onclick="submitQuestionAnswer();" style="width:auto;">Login</button>
+                </div>
+
+                <div hidden>
+                    <label for="other">question here</label>
+
+                    <img src="#" alt="Alternate Text" />
+
+                    <input type="text" id="submitAnswer" name="submitAnswer" value="">
+                </div>
+
+                <div hidden>
+                    <label for="other">question here</label>
+
+                    <input type="submit" value="Submit">
+                </div>
 
             </div>
             <div class="score" id="score">
